@@ -44,8 +44,9 @@ df1 = repo_event_counts.toPandas()
 df2 = push_counts.toPandas()
 df3 = pr_counts.toPandas()
 
-# Create output directory
-os.makedirs("dashboard_output", exist_ok=True)
+
+portfolio_path = "../../raaj-portfolio/raaj-portfolio-v2/public/analytics"
+os.makedirs(portfolio_path, exist_ok=True)
 
 fig1 = px.bar(df1, x="repo", y="total_events",
 title="Top Trending GitHub Repositories")
@@ -56,9 +57,9 @@ title="Repositories with Most Push Activity")
 fig3 = px.bar(df3, x="repo", y="pr_count",
 title="Repositories with Most Pull Requests")
 
-fig1.write_html("dashboard_output/top_repositories.html")
-fig2.write_html("dashboard_output/push_activity.html")
-fig3.write_html("dashboard_output/pr_activity.html")
+fig1.write_html(f"{portfolio_path}/top_repositories.html")
+fig2.write_html(f"{portfolio_path}/push_activity.html")
+fig3.write_html(f"{portfolio_path}/pr_activity.html")
 
 spark.stop()
 
