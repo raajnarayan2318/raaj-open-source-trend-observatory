@@ -52,4 +52,4 @@ jobs:
           git add public/analytics/*.html
           git commit -m "Daily analytics update" || echo "No changes"
 
-          git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/raajnarayan2318/raaj-portfolio-v2.git
+          git push https://x-access-token:${{ secrets.PORTFOLIO_TOKEN }}@github.com/raajnarayan2318/raaj-portfolio-v2.git
