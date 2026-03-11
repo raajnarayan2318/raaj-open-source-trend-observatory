@@ -10,21 +10,6 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    services:
-      postgres:
-        image: postgres:15
-        env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
-          POSTGRES_DB: github_trends
-        ports:
-          - 5432:5432
-        options: >-
-          --health-cmd="pg_isready"
-          --health-interval=10s
-          --health-timeout=5s
-          --health-retries=5
-
     steps:
 
       - name: Checkout repo
@@ -45,10 +30,17 @@ jobs:
         run: |
           pip install -r requirements.txt
 
-      - name: Wait for Postgres
-        run: |
-          sleep 10
-
       - name: Run pipeline
         run: |
           python run_pipeline.py
+
+      - name: Commit dashboards
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "actions@github.com"
+
+          git add dashboard_output/*.html || true
+
+          git commit -m "Auto-update analytics dashboards" || echo "No changes"
+
+          git push
