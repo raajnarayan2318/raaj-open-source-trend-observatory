@@ -8,40 +8,48 @@ on:
 jobs:
   run-pipeline:
     runs-on: ubuntu-latest
+
     permissions:
       contents: write
 
     steps:
 
-      - name: Checkout repo
+      - name: Checkout pipeline repo
         uses: actions/checkout@v3
 
       - name: Install Java (Spark)
         uses: actions/setup-java@v3
         with:
-          distribution: 'temurin'
-          java-version: '17'
+          distribution: temurin
+          java-version: 17
 
       - name: Setup Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.11'
+          python-version: 3.11
 
       - name: Install dependencies
-        run: |
-          pip install -r requirements.txt
+        run: pip install -r requirements.txt
 
       - name: Run pipeline
+        run: python run_pipeline.py
+
+      - name: Clone portfolio repo
         run: |
-          python run_pipeline.py
+          git clone https://github.com/raajnarayan2318/raaj-portfolio-v2.git portfolio
 
-      - name: Commit dashboards
+      - name: Copy dashboards to portfolio
         run: |
-          git config --global user.name "github-actions"
-          git config --global user.email "actions@github.com"
+          mkdir -p portfolio/public/analytics
+          cp dashboard_output/*.html portfolio/public/analytics/
 
-          git add ../raaj-portfolio/raaj-portfolio-v2/public/analytics/*.html || true
+      - name: Commit and push analytics update
+        run: |
+          cd portfolio
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
 
-          git commit -m "Daily analytics dashboard update" || echo "No changes"
+          git add public/analytics/*.html
+          git commit -m "Daily analytics update" || echo "No changes"
 
-          git push
+          git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/raajnarayan2318/raaj-portfolio-v2.git
