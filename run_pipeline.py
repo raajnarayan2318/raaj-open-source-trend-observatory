@@ -9,4 +9,4 @@ subprocess.run(["python", "src/processing/spark_transform.py"], check=True)
 print("Generating dashboards...")
 subprocess.run(["python", "src/dashboard/generate_charts.py"], check=True)
 
-print("Pipeline completed successfully.")
+print("Pipeline completed successfully")
