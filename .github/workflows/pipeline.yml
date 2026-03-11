@@ -30,4 +30,4 @@ jobs:
 
       - name: Run pipeline
         run: |
-          python src/run_pipeline.py
+          python run_pipeline.py
