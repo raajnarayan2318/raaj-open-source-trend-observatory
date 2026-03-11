@@ -1,0 +1,18 @@
+# Python
+venv/
+__pycache__/
+*.pyc
+
+# Data files
+data/raw/
+data/processed/
+
+# Spark output
+spark-warehouse/
+*.parquet
+
+# Dashboard outputs
+dashboard_output/*.html
+
+# Mac
+.DS_Store
