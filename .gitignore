@@ -11,8 +11,6 @@ data/processed/
 spark-warehouse/
 *.parquet
 
-# Dashboard outputs
-dashboard_output/*.html
 
 # Mac
 .DS_Store
